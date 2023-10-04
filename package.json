@@ -1,39 +1,42 @@
 {
-  "name": "secret-santa-tg",
-  "version": "0.1.0",
+  "name": "root",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "lowdb": "^6.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "_server-dev": "nodemon ./packages/server/index.js",
+    "_server-tunnel": "lt --port $SERVER_PORT --subdomain $SERVER_TUNNEL_SUBDOMAIN",
+    "_server-dev-tunnel": "npm run _server-dev & npm run _server-tunnel",
+    "_server-install": "npm i --prefix=packages/server",
+    "_client-dev": "PORT=$CLIENT_PORT npm run --prefix=packages/client start",
+    "_client-build": "npm run --prefix=packages/client build",
+    "_client-tunnel": "lt --port $CLIENT_PORT --subdomain $CLIENT_TUNNEL_SUBDOMAIN",
+    "_client-dev-tunnel": "npm run _client-dev & npm run _client-tunnel",
+    "_client-install": "npm i --prefix=packages/client",
+    "read-env:dev": "dotenv -e .env -e .env.dev",
+    "read-env:prod": "dotenv -e .env -e .env.prod",
+    "read-env:tunnel": "dotenv -e .env -e .env.tunnel",
+    "server:start": "npm run read-env:prod -- node ./packages/server/index.js",
+    "server:dev": "npm run read-env:dev -- npm run _server-dev",
+    "server:tunnel": "npm run read-env:tunnel -- npm run _server-dev-tunnel",
+    "server:forever": "forever restart -c \"npm run server:start\" ./",
+    "client:dev": "npm run read-env:dev -- npm run _client-dev",
+    "client:build": "npm run read-env:prod -- npm run _client-build",
+    "client:tunnel": "npm run read-env:tunnel -- npm run _client-dev-tunnel",
+    "dev": "npm run server:dev & npm run client:dev",
+    "tunnel": "npm run server:tunnel & npm run client:tunnel",
+    "setup": "npm i && npm run _client-install && npm run _server-install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.3.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "localtunnel": "^2.0.2",
+    "nodemon": "^3.0.1"
   }
 }

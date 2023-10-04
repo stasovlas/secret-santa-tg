@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Secret Santa Party App
+<img src="readme.png" alt="secret santa" align="right" width="200" />
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Secret Santa Party ([@secretsantabot](https://t.me/santapartybot)) is the Telegram [Mini App](https://core.telegram.org/bots/webapps) which allows randomly assigned a person to whom they give a gift (popular worldwide [tradition](https://en.wikipedia.org/wiki/Secret_Santa)).
 
-## Available Scripts
+- [Overview](#overview)
+- [Used technologies](#used-technologies-and-libraries)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Developing Telegram Mini App guide](#developing-telegram-mini-app-guide)
 
-In the project directory, you can run:
+## Overview
+Server side is a one-file express application which store data in JSON database and interact with Telegram Bot API.
 
-### `npm start`
+Client side is a basic React single page application. Code architecture is described by [FSD](https://feature-sliced.design/) methodology. State manager is allows to describe application entities, simply managed them and monitor changes to update rendered content.
+## Used technologies and libraries
+### Common
+- [dotenv, dotenv-cli](https://github.com/motdotla/dotenv/tree/master) loads environment variables from .env files,
+- [localtunnel](https://theboroer.github.io/localtunnel-www/) allows easily share a web service on your local development machine.
+### Server
+- [node.js](https://nodejs.org/) run backend JavaScript,
+- [nodemon](https://nodemon.io/) monitor for any changes in source and automatically restart server,
+- [express](https://expressjs.com/), [cors](https://www.npmjs.com/package/cors), [body-parser](https://www.npmjs.com/package/body-parser) - libraries to run and configure http-server,
+- [lowdb](https://github.com/typicode/lowdb) - simple to use local JSON database,
+- [nanoid, nanoid-dictionary](https://github.com/ai/nanoid) - unique string ID generator,
+- [node-telegram-bot-api](https://www.npmjs.com/package/node-telegram-bot-api) - module to interact with the Telegram Bot API.
+### Client
+- [Create React App](https://create-react-app.dev/) - utility which create react application by one command,
+- [axios](https://axios-http.com/ru/docs/intro) - HTTP client,
+- [lottie-react](https://lottiereact.com/) run lottie files,
+- [mobx-state-tree](https://mobx-state-tree.js.org/intro/welcome) - reactive state management,
+- [tailwindcss](https://tailwindcss.com/) - CSS framework.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Requirements
+- Node.js 16.x or higher
+- macOS or Linux operating system (Windows is not checked)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
+1. Clone the repository:
 
-### `npm test`
+    `git clone https://github.com/stasovlas/secret-santa-tg.git`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Go to app dir:
 
-### `npm run build`
+    `cd secret-santa-tg`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    `npm run setup`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Setup environments (it can be configured at any time)
 
-### `npm run eject`
+    Environments are described as env files:
+   - `.env` - secret environment? copy it from `.env.example` and fill by your data
+   - `.env.dev` - environment for local developing
+   - `.env.tunnel` - environment for local developing too, but with exposing local machine to the internet
+   - `.env.prod` - production environment
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    Global variables you can setup:
+   - `TELEGRAM_TOKEN` - Telegram bot token which you received after bot registration,
+   - `TELEGRAM_WEB_APP` - url of web application,
+   - `CLIENT_PORT` - port on which client application will run,
+   - `SERVER_PORT` - port on which server application will run,
+   - `REACT_APP_SERVER_HOST` - host to which requests from the client application will be sent (prefix `REACT_APP_` is [necessary](https://create-react-app.dev/docs/adding-custom-environment-variables/)),
+   - `CLIENT_TUNNEL_SUBDOMAIN` - subdomain to generate client host tunnel (for example `ssanta` generate `ssanta.loca.lt`),
+   - `SERVER_TUNNEL_SUBDOMAIN` - subdomain to generate server host tunnel (for example `ssanta` generate `ssanta.loca.lt`),
+   - `REACT_APP_ENV` - variable to differentiate developing and production environment (prefix `REACT_APP_` is [necessary](https://create-react-app.dev/docs/adding-custom-environment-variables/)).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Developing Telegram Mini App guide
+### Step 1
+Developing the app until you need Telegram integration and have the option to use fictitious data. Use command `npm run dev` to run both client and server apps and watch code changes.
+### Step 2
+After developing the main part of the app, you'll need to finalize it with Telegram integration.
+To do this:
+1. Expose your local machine with command `npm run tunnel`;
+2. Create the test bot with [@BotFather](https://t.me/BotFather) using command `/newbot`, name it for example `SsantaFunTestBot` and then configure (optional) [menu button](https://core.telegram.org/bots/webapps#launching-mini-apps-from-the-menu-button) using URL from point 1;
+3. Create the test app with [@BotFather](https://t.me/BotFather) using command `/newapp`:
+   1. Select bot will be offering the web app (previously created),
+   2. Enter something for title,
+   3. Enter short description,
+   4. Choose picture,
+   5. Choose gif or not,
+   6. Enter Web App URL (you can find it in console after run `npm run tunnel`), it should be `'https://' + CLIENT_TUNNEL_SUBDOMAIN + '.loca.lt'`, for example `https://ssanta.loca.lt`,
+   7. Enter name, for example `app`,
+   8. Click the link to your web app, it will be like `t.me/SsantaFunTestBot/app` - Telegram will open your app;
+4. Now you can develop you app as usual but watch progress in Telegram.
+### Step 3
+After you finished developing to do this:
+1. Host your application in internet using VPS, for example;
+2. Configure `.env.prod` according point 1;
+3. Create production bot like in Step 2;
+4. Create production app like in Step 2, but use link to your web app according to point 1;

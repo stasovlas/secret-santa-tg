@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --theme-bg-color: var(--tg-theme-bg-color, #ffffff);
+  --theme-text-color: var(--tg-theme-text-color, #000000);
+  --theme-hint-color: var(--tg-theme-hint-color, #cccccc);
+  --theme-link-color: var(--tg-theme-link-color, #000000);
+  --theme-button-color: var(--tg-theme-button-color, #000000);
+  --theme-button-text-color: var(--tg-theme-button-text-color, #ffffff);
+  --theme-secondary-bg-color: var(--tg-theme-secondary-bg-color, #efeff3);
+}
+
+::placeholder {
+  color: var(--theme-hint-color);
+  opacity: 1;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .theme-secondary-bg-color {
+    background-color: var(--theme-secondary-bg-color)
+  }
+  .theme-bg-color {
+    background-color: var(--theme-bg-color)
+  }
+  .theme-text-color {
+    color: var(--theme-text-color)
+  }
+  .theme-secondary-text-color {
+    color: var(--theme-hint-color)
+  }
+  .theme-button-color {
+    background-color: var(--theme-button-color)
+  }
+  .theme-button-text-color {
+    color: var(--theme-button-text-color)
+  }
+  .theme-border-color {
+    border-color: var(--theme-text-color);
+  }
+  .theme-secondary-border-color {
+    border-color: var(--theme-hint-color);
+  }
+  .theme-hint-color {
+    color: var(--theme-hint-color);
+  }
+}
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply theme-bg-color theme-text-color
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
