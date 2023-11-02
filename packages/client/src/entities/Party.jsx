@@ -2,7 +2,7 @@ import store from '../shared/stores/root-store';
 import { observer } from 'mobx-react-lite';
 
 const PartyTitle = observer(({ party: { name, ownerId }, onClick }) => {
-    const isOwner = ownerId === store.me.id;
+    const isOwner = ownerId === store.me?.id;
 
     return (
         <div className={'flex items-center justify-between text-md font-bold cursor-pointer select-none'} onClick={onClick}>

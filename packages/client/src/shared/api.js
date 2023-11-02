@@ -118,3 +118,17 @@ export async function fetchInitData(participantId, joinPartyId) {
             console.log(error);
         });
 }
+
+export async function fetchAdminData(token) {
+    return axios.get('/admin-data', {
+        params: {
+            token
+        }
+    })
+        .then(function (res) {
+            return res.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}

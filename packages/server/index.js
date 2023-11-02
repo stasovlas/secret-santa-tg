@@ -12,6 +12,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import { generatePairs } from './helpers.js';
 
 const token = process.env.TELEGRAM_TOKEN;
+const adminToken = process.env.ADMIN_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.on('polling_error', () => {
@@ -323,6 +324,18 @@ app.get('/init-data', (req, res) => {
     });
 
     return res.json({ parties, gifts, wishLists });
+});
+
+app.get('/admin-data', (req, res) => {
+    const token = req.query.token;
+
+    if (token !== adminToken) {
+        return res.status(500).send({ error: 'token id is not valid' });
+    }
+
+    const parties = db.data.parties; // getParties(participantId, joinPartyId);
+
+    return res.json({ parties });
 });
 
 const PORT = process.env.SERVER_PORT || '4000';

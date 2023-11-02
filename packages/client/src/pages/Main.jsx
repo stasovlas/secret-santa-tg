@@ -58,7 +58,7 @@ const Main = observer(() => {
     const translate = isInited ? 'translate-y-0' : 'translate-y-32';
     
     return (
-        <div className={'relative h-full'}>
+        <div className={'relative h-full mx-auto max-w-md'}>
             { isInited && (
                 <>
                     <NewParty />
